@@ -2,12 +2,28 @@ import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
   name: String,
-  email: { type: String, unique: true },
-  password: String,
+
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+
+  password: {
+    type: String,
+    required: true,
+  },
+
   role: {
     type: String,
     enum: ["developer", "company"],
+    required: true,
   },
-})
+
+  // 🔐 Reset Password Fields
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+
+}, { timestamps: true })
 
 export default mongoose.model("User", userSchema)

@@ -1,46 +1,79 @@
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(email)
+    setLoading(true)
+
+    try {
+      // TODO: connect API
+      console.log(email)
+
+      setTimeout(() => {
+        setLoading(false)
+        alert("Reset link sent to your email")
+      }, 1000)
+
+    } catch (err) {
+      setLoading(false)
+      alert("Something went wrong")
+    }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#caf0f8] via-white to-[#90e0ef]">
 
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+      {/* Glass Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md p-8 rounded-2xl backdrop-blur-lg bg-white/70 border border-white/40 shadow-xl"
+      >
 
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-3">
           Forgot Password
         </h2>
 
-        <p className="text-gray-600 text-sm mb-4 text-center">
-          Enter your email to reset your password
+        <p className="text-gray-600 text-sm mb-6 text-center">
+          Enter your email to receive a reset link
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
 
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-xl"
             required
+            className="w-full p-3 rounded-xl bg-white border border-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
           />
 
-          <button
+          {/* Button */}
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
             type="submit"
-            className="w-full bg-primary text-white p-3 rounded-xl"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-[#0077B6] hover:bg-[#005f8f] text-white font-semibold flex items-center justify-center gap-2 transition"
           >
-            Send Reset Link
-          </button>
+            {loading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Sending...
+              </>
+            ) : (
+              "Send Reset Link"
+            )}
+          </motion.button>
 
         </form>
 
-      </div>
+      </motion.div>
     </div>
   )
 }
