@@ -2,7 +2,7 @@ import User from "../models/User.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import crypto from "crypto"
-
+import sendEmail from "../utils/sendEmail.js"
 import CompanyProfile from "../models/CompanyProfile.js"
 
 // ================= REGISTER =================
@@ -44,6 +44,7 @@ export const register = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
+  
 }
 
 // ================= LOGIN =================
@@ -75,35 +76,55 @@ export const login = async (req, res) => {
 }
 
 // ================= FORGOT PASSWORD =================
+
+
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body
-
+    const email = req.body.email.trim().toLowerCase()
+    console.log("Forgot password hit:", email)
     const user = await User.findOne({ email })
-    if (!user)
-      return res.status(404).json({ message: "User not found" })
 
-    // Generate token
+    if (!user)
+      return res.json({
+        message: "If this email exists, a reset link has been sent",
+      })
+
     const resetToken = crypto.randomBytes(32).toString("hex")
 
-    // Hash token before saving (security)
     const hashedToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex")
 
     user.resetPasswordToken = hashedToken
-    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000 // 15 min
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000
 
     await user.save()
 
-    // Create reset link
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`
 
-    // TODO: Send email here (nodemailer)
-    console.log("Reset Link:", resetUrl)
+    const message = `
+You requested a password reset.
 
-    res.json({ message: "Reset link sent to email" })
+Click the link below:
+${resetUrl}
+
+Expires in 15 minutes.
+`
+
+    try {
+      await sendEmail(user.email, "Password Reset", message)
+    } catch (err) {
+      user.resetPasswordToken = undefined
+      user.resetPasswordExpire = undefined
+      await user.save()
+
+      return res.status(500).json({ message: "Email could not be sent" })
+    }
+
+    res.json({
+      message: "If this email exists, a reset link has been sent",
+    })
 
   } catch (error) {
     res.status(500).json({ message: error.message })

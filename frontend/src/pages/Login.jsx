@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
-import API from "../services/api"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../firebase"
+import API from "../services/api" // optional (for backend sync)
 
 export default function Login() {
   const [role, setRole] = useState("developer")
@@ -24,13 +26,29 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const res = await API.post("/auth/login", {
-        ...form,
-        role,
-      })
+      // 🔥 Firebase Login
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      )
 
-      localStorage.setItem("token", res.data.token)
+      const user = userCredential.user
 
+      console.log("Firebase User:", user)
+
+      // 🔥 OPTIONAL: Send to backend (store role / profile)
+      try {
+        await API.post("/users/sync", {
+          uid: user.uid,
+          email: user.email,
+          role,
+        })
+      } catch (err) {
+        console.log("Backend sync optional:", err.message)
+      }
+
+      // 🔥 Redirect
       setTimeout(() => {
         setLoading(false)
 
@@ -39,11 +57,11 @@ export default function Login() {
         } else {
           navigate("/company-dashboard")
         }
-      }, 1000)
+      }, 800)
 
-    } catch (err) {
+    } catch (error) {
       setLoading(false)
-      alert(err.response?.data?.message || "Login failed")
+      alert(error.message)
     }
   }
 

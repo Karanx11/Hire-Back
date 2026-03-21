@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { sendPasswordResetEmail } from "firebase/auth"
+import { auth } from "../firebase"
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")
@@ -10,17 +12,17 @@ export default function ForgotPassword() {
     setLoading(true)
 
     try {
-      // TODO: connect API
-      console.log(email)
+      // 🔥 Firebase reset email
+      await sendPasswordResetEmail(auth, email)
 
       setTimeout(() => {
         setLoading(false)
-        alert("Reset link sent to your email")
-      }, 1000)
+        alert("Reset email sent! Check your inbox 📧")
+      }, 800)
 
-    } catch (err) {
+    } catch (error) {
       setLoading(false)
-      alert("Something went wrong")
+      alert(error.message)
     }
   }
 
@@ -45,6 +47,7 @@ export default function ForgotPassword() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
 
+          {/* Email */}
           <input
             type="email"
             placeholder="Email address"
@@ -59,7 +62,7 @@ export default function ForgotPassword() {
             whileHover={{ scale: 1.02 }}
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-[#0077B6] hover:bg-[#005f8f] text-white font-semibold flex items-center justify-center gap-2 transition"
+            className="w-full py-3 rounded-xl bg-[#0077B6] hover:bg-[#005f8f] text-white font-semibold flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
