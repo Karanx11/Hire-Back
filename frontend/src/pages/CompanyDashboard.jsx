@@ -25,7 +25,7 @@ export default function CompanyDashboard() {
     try {
       await API.post("/interview/send", {
         developerId,
-        message: "We want to hire you 🚀",
+        message: "We want to hire you",
       })
 
       alert("Request sent!")
@@ -41,7 +41,7 @@ export default function CompanyDashboard() {
     <div className="min-h-screen bg-gray-50 p-6">
 
       <h1 className="text-3xl font-bold mb-6">
-        Explore Developers 🚀
+        Explore Developers
       </h1>
 
       <div className="grid md:grid-cols-3 gap-6">

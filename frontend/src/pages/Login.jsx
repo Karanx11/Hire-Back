@@ -26,7 +26,7 @@ export default function Login() {
     setLoading(true)
 
     try {
-      // 🔥 Firebase Login
+      // Firebase Login
       const userCredential = await signInWithEmailAndPassword(
         auth,
         form.email,
@@ -37,7 +37,7 @@ export default function Login() {
 
       console.log("Firebase User:", user)
 
-      // 🔥 OPTIONAL: Send to backend (store role / profile)
+      // Send to backend (store role / profile)
       try {
         await API.post("/users/sync", {
           uid: user.uid,
@@ -48,7 +48,7 @@ export default function Login() {
         console.log("Backend sync optional:", err.message)
       }
 
-      // 🔥 Redirect
+      // Redirect
       setTimeout(() => {
         setLoading(false)
 
