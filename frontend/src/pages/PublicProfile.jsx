@@ -21,14 +21,14 @@ export default function PublicProfile() {
     fetchProfile()
   }, [])
 
-  // 🔥 Send request from profile
+  // Send request from profile
   const sendRequest = async () => {
     try {
       setLoading(true)
 
       await API.post("/interview/send", {
         developerId: userId,
-        message: "We would like to interview you 🚀",
+        message: "We would like to interview you...",
       })
 
       setSent(true)
@@ -69,7 +69,7 @@ export default function PublicProfile() {
           </div>
         </div>
 
-        {/* 🔥 Hire Button */}
+        {/*Hire Button */}
         <button
           onClick={sendRequest}
           disabled={loading || sent}
@@ -80,10 +80,10 @@ export default function PublicProfile() {
           } transition`}
         >
           {sent
-            ? "Request Sent ✅"
+            ? "Request Sent"
             : loading
             ? "Sending..."
-            : "Hire / Send Interview Request 🚀"}
+            : "Hire / Send Interview Request"}
         </button>
 
         {/* Skills */}
@@ -122,7 +122,7 @@ export default function PublicProfile() {
               target="_blank"
               className="text-blue-500 underline"
             >
-              View Resume 📄
+              View Resume
             </a>
           </div>
         )}

@@ -47,14 +47,14 @@ export default function Login() {
 
       const user = userCredential.user
 
-      // 🔐 CHECK EMAIL VERIFIED
+      // CHECK EMAIL VERIFIED
       if (!user.emailVerified) {
         setLoading(false)
         setNotVerified(true)
         return
       }
 
-      // 🔥 OPTIONAL backend sync
+      // OPTIONAL backend sync
       try {
         await API.post("/users/sync", {
           uid: user.uid,
@@ -159,10 +159,10 @@ export default function Login() {
 
         </form>
 
-        {/* ❌ NOT VERIFIED MESSAGE */}
+        {/* NOT VERIFIED MESSAGE */}
         {notVerified && (
           <div className="mt-6 text-center text-sm bg-red-50 border border-red-200 p-3 rounded-xl">
-            ❌ Your email is not verified <br />
+           Your email is not verified <br />
             Please check your <b>Inbox</b> or{" "}
             <span className="text-red-500 font-semibold">Spam folder</span>.
             
@@ -172,7 +172,7 @@ export default function Login() {
               onClick={resendVerification}
               className="mt-2 text-[#0077B6] font-semibold"
             >
-              🔁 Resend Verification Email
+              Resend Verification Email
             </button>
           </div>
         )}

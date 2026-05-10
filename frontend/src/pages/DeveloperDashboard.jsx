@@ -8,7 +8,7 @@ export default function DeveloperDashboard() {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-  // 🔐 Protect route
+  // Protect route
   useEffect(() => {
     if (!auth.currentUser) {
       navigate("/login")

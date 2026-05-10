@@ -91,7 +91,7 @@ export default function CompanyDashboard() {
             {/* Buttons */}
             <div className="flex flex-col gap-2">
 
-              {/* 🔥 View Profile */}
+              {/* View Profile */}
               <Link
                 to={`/developer/${dev.userId._id}`}
                 className="text-center border border-primary text-primary py-2 rounded-xl hover:bg-primary hover:text-white transition"

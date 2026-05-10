@@ -14,11 +14,11 @@ export default function Notifications() {
   useEffect(() => {
     fetchNotifications()
 
-    // 🔥 REAL-TIME LISTENER
+    // REAL-TIME LISTENER
     socket.on("newNotification", (data) => {
-      toast.success(data.message) // 🍞 toast instead of alert
+      toast.success(data.message) // toast instead of alert
 
-      // 🔊 sound
+      // sound
       const audio = new Audio("/notification.mp3")
       audio.play()
 

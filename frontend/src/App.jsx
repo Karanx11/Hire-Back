@@ -29,7 +29,7 @@ function App() {
         }
       }
 
-      // 🔔 Listen for notifications
+      // Listen for notifications
       socket.on("newNotification", (data) => {
         toast.success(data.message)
       })
@@ -46,7 +46,7 @@ function App() {
 
   return (
     <>
-      {/* ✅ Toast UI */}
+      {/* Toast UI */}
       <Toaster position="top-right" />
 
       <Router>

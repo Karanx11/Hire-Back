@@ -12,7 +12,7 @@ export default function ForgotPassword() {
     setLoading(true)
 
     try {
-      // 🔥 Firebase reset email
+      // Firebase reset email
       await sendPasswordResetEmail(auth, email)
 
       setTimeout(() => {
