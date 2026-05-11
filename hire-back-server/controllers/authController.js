@@ -5,7 +5,7 @@ import crypto from "crypto"
 import sendEmail from "../utils/sendEmail.js"
 import CompanyProfile from "../models/CompanyProfile.js"
 
-// ================= REGISTER =================
+// REGISTER 
 export const register = async (req, res) => {
   try {
     const {
