@@ -111,7 +111,7 @@ export default function CompanyDashboard() {
               >
                 {sentRequests.includes(dev.userId._id)
                   ? "Request Sent"
-                  : "Send Interview Request"}
+                  : "Send Interview Request...."}
               </button>
 
             </div>
