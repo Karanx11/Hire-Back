@@ -99,7 +99,7 @@ export default function CompanyDashboard() {
                 View Profile
               </Link>
 
-              {/* Send Request */}
+              {/*  Send Request */}
               <button
                 onClick={() => sendRequest(dev.userId._id)}
                 disabled={sentRequests.includes(dev.userId._id)}
