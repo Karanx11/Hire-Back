@@ -28,7 +28,7 @@ export default function Login() {
   const resendVerification = async () => {
     try {
       await sendEmailVerification(auth.currentUser)
-      alert("Verification email sent again! Check inbox or spam 📧")
+      alert("Verification email sent again! Check inbox or spam !!!")
     } catch {
       alert("Failed to resend email")
     }
